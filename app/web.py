@@ -411,7 +411,7 @@ function tick(){
   
   // Update copyright year
   const footerYear = document.getElementById('footer-year').firstElementChild;
-  if(footerYear) footerYear.textContent = `&copy; ${now.getFullYear()}`;
+  if(footerYear) footerYear.innerHTML = `&copy; ${now.getFullYear()}`;
 }
 setInterval(tick,1000);tick();
 
