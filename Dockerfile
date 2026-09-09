@@ -2,15 +2,16 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Install Python dependencies
+# Install only what's needed, clean up
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
 
-# Copy application
 COPY . .
 
-# Expose port (configurable via PORT env var)
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+
 EXPOSE 8000
 
-# Default command
-CMD ["python", "main.py"]
+CMD ["gunicorn", "main:app", "-c", "gunicorn_config.py"]

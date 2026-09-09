@@ -1,13 +1,10 @@
-# E-Paper Download System
-
+# E-Paper Download System (Lightweight)
 httpx>=0.25
 Pillow>=10.0
 structlog>=23.0
 pydantic>=2.0
-pydantic-settings>=2.0
 fastapi>=0.104
-uvicorn[standard]>=0.24
-pytz>=2023.3
+uvicorn>=0.24
 APScheduler>=3.10
 firebase-admin>=6.0
 python-dateutil>=2.8
