@@ -118,6 +118,20 @@ def get_pdf_base64(doc_id: str) -> str | None:
     return None
 
 
+def get_doc_by_filename(filename: str) -> dict | None:
+    """Find an e-paper document by its filename."""
+    if not _db:
+        return None
+    try:
+        docs = _db.collection("epapers").where(filter=firestore.FieldFilter("filename", "==", filename)).limit(1).stream()
+        for doc in docs:
+            data = doc.to_dict()
+            return {"id": doc.id, **data}
+    except Exception as e:
+        logger.error("firestore_get_by_filename_failed", filename=filename, error=str(e))
+    return None
+
+
 def get_epapers(date: str = None) -> list[dict]:
     """Get e-paper metadata from Firestore."""
     if not _db:

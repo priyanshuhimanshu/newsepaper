@@ -135,32 +135,25 @@ async def lookup(date: str, provider: str, city: str):
 async def download(path: str):
     """Download PDF from Firestore."""
     import base64
-    from .storage import init_firebase, get_pdf_base64
+    from .storage import init_firebase, get_pdf_base64, get_doc_by_filename
     init_firebase()
 
-    # Parse path: 2026/09/09/epaper_indian-punch_deoghar_260909.pdf
-    parts = Path(path).parts  # ('2026', '09', '09', 'epaper_indian-punch_deoghar_260909.pdf')
-    if len(parts) < 4:
-        return JSONResponse({"error": "invalid path"}, 400)
+    filename = Path(path).name
 
-    date_str = f"{parts[0]}-{parts[1]}-{parts[2]}"
-    stem = Path(path).stem  # epaper_indian-punch_deoghar_260909
-    file_parts = stem.split("_")
-    if len(file_parts) < 3:
-        return JSONResponse({"error": "invalid filename"}, 400)
+    # Look up document by filename in Firestore
+    doc = get_doc_by_filename(filename)
+    if not doc:
+        return JSONResponse({"error": "not found"}, 404)
 
-    provider = file_parts[1].replace("-", "_")
-    city = file_parts[2]
-    doc_id = f"{date_str}_{provider}_{city}"
-
+    doc_id = doc["id"]
     pdf_b64 = get_pdf_base64(doc_id)
     if not pdf_b64:
-        return JSONResponse({"error": "not found"}, 404)
+        return JSONResponse({"error": "PDF content not found"}, 404)
 
     data = base64.b64decode(pdf_b64)
     from fastapi.responses import Response
     return Response(content=data, media_type="application/pdf",
-                   headers={"Content-Disposition": f'attachment; filename="{Path(path).name}"'})
+                   headers={"Content-Disposition": f'attachment; filename="{filename}"'})
 
 
 class EncodeRequest(BaseModel):
