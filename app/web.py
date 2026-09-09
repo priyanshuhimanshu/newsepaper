@@ -323,7 +323,6 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   font-weight: 500;
 }
 .footer .disclaimer{
-  display: block;
   font-size: .7rem;
   opacity: 0.7;
 }
@@ -365,8 +364,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 </div>
 
 <footer class="footer">
-  <div>Designed & Developed by <b>Manoranjan Kumar</b></div>
-  <span class="disclaimer">This application is for personal use only and not for commercial purposes.</span>
+  <div style="display:flex; justify-content:space-between; align-items:center; max-width:1100px; margin:0 auto; padding:0 1.5rem">
+    <span>&copy; 2026</span>
+    <div>Designed & Developed by <b>Manoranjan Kumar</b></div>
+    <span class="disclaimer">Not for commercial use</span>
+  </div>
 </footer>
 
 <!-- PAST DOWNLOAD MODAL -->
