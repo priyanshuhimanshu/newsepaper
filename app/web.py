@@ -310,9 +310,24 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .msg.err{display:block;background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.2);color:var(--red)}
 .msg.info{display:block;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);color:var(--accent)}
 
-.empty{text-align:center;padding:2.5rem 1rem;color:var(--muted)}
-.empty i{font-size:2.5rem;display:block;margin-bottom:.5rem}
-
+.footer{
+  margin-top: 3rem;
+  padding: 2rem 0;
+  border-top: 1px solid var(--border);
+  text-align: center;
+  color: var(--muted);
+  font-size: .85rem;
+}
+.footer b{
+  color: var(--text);
+  font-weight: 600;
+}
+.footer .disclaimer{
+  display: block;
+  margin-top: .5rem;
+  font-style: italic;
+  opacity: 0.8;
+}
 @media(max-width:640px){
   .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
   .tbl{min-width:500px}
@@ -349,6 +364,11 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     </div>
   </div>
 </div>
+
+<footer class="footer">
+  <div>Designed & Developed by <b>Manoranjan Kumar</b></div>
+  <span class="disclaimer">This application is for personal use only and not for commercial purposes.</span>
+</footer>
 
 <!-- PAST DOWNLOAD MODAL -->
 <div class="modal-overlay" id="pastModal" style="display:none" onclick="closePastModal(event)">
