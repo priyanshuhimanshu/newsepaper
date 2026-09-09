@@ -98,8 +98,15 @@ def get_pdf_base64(doc_id: str) -> str | None:
     if not _db:
         return None
     try:
-        # Get first chunk to know total_chunks
+        # Try with original doc_id first
         first = _db.collection("pdf_chunks").document(f"{doc_id}_chunk_0").get()
+        
+        # If not found, try normalizing dashes to underscores
+        if not first.exists:
+            normalized = doc_id.replace("-", "_")
+            first = _db.collection("pdf_chunks").document(f"{normalized}_chunk_0").get()
+            doc_id = normalized
+        
         if not first.exists:
             return None
 
