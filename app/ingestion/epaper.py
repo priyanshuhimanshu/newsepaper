@@ -5,14 +5,15 @@ Folder: data/epapers/{yyyy}/{mm}/{dd}/
 
 Page images are downloaded then combined into one PDF per city.
 """
-import httpx
 import asyncio
 import re
+from datetime import datetime
 from io import BytesIO
 from pathlib import Path
-from datetime import datetime
-from PIL import Image
+
+import httpx
 import structlog
+from PIL import Image
 
 from app.utils import now_ist
 
@@ -26,18 +27,11 @@ HEADERS = {
 }
 
 JHARKHAND_JAGRAN_EDITIONS = {
-    "ranchi": 212, "dhanbad": 139, "jamshedpur": 151, "deoghar": 177,
-    "dumka": 227, "santhal": 226, "bokaro": 181, "hazaribag": 235,
-    "giridih": 180, "palamu": 234, "lohardagga": 236, "koderma": 263,
-    "ramgarh": 269, "godda": 305, "jamtara": 179, "chaibasa": 255,
-    "ghatshila": 256, "garwha": 276,
+    "ranchi": 212, "santhal": 226, "deoghar": 177, "dumka": 227, "godda": 305,
 }
 
 LIVEHINDUSTAN_CITIES = {
-    "sahibganj": "DNB_SAH", "godda": "DNB_GOD", "deoghar": "BHG_DEO",
-    "dumka": "BHG_SNT", "dhanbad": "DNB_DNB", "jamshedpur": "JMD_JMD",
-    "giridih": "DNB_GRD", "bokaro": "DNB_BKR", "ranchi": "BHG_HTM",
-    "pakur": "DNB_PKR", "hazaribag": "BHG_HZB",
+    "sahibganj": "DNB_SAH", "pakur": "DNB_PKR", "dumka": "BHG_SNT",
 }
 
 PRABHAT_KHABAR_CITIES = {
@@ -46,12 +40,6 @@ PRABHAT_KHABAR_CITIES = {
     "sahibganj": {"group": "deoghar", "city": "sahibganj"},
     "pakur": {"group": "deoghar", "city": "pakur"},
     "godda": {"group": "deoghar", "city": "godda"},
-    "dhanbad": {"group": "dhanbad", "city": "dhanbad-city"},
-    "dumka": {"group": "deoghar", "city": "dumka"},
-    "bokaro": {"group": "bokaro", "city": "bokaro-city"},
-    "jamshedpur": {"group": "jamshedpur", "city": "jamshedpur-city"},
-    "hazaribag": {"group": "hazaribag", "city": "hazaribag-city"},
-    "giridih": {"group": "giridih", "city": "giridih-city"},
 }
 
 
@@ -368,14 +356,14 @@ class EpaperDownloader:
         today = now_ist()
         results = {}
         results["indian_punch"] = await self.download_indian_punch(today)
-        results["prabhat_khabar"] = await self.download_prabhat_khabar_all(
-            ["ranchi", "deoghar", "dumka", "sahibganj", "pakur"], today
-        )
-        results["ranchi_express"] = await self.download_ranchi_express(today)
-        results["santal_express"] = await self.download_santal_express(today)
-        results["livehindustan"] = await self.download_livehindustan_all(
-            ["sahibganj", "godda", "deoghar", "dumka", "dhanbad", "jamshedpur"], today
-        )
+        # results["prabhat_khabar"] = await self.download_prabhat_khabar_all(
+        #     ["ranchi", "deoghar", "dumka", "sahibganj", "pakur"], today
+        # )
+        # results["ranchi_express"] = await self.download_ranchi_express(today)
+        # results["santal_express"] = await self.download_santal_express(today)
+        # results["livehindustan"] = await self.download_livehindustan_all(
+        #     ["sahibganj", "godda", "deoghar", "dumka", "dhanbad", "jamshedpur"], today
+        # )
         logger.info("epaper_all_complete", results={k: v.get("status") for k, v in results.items()})
         return results
 

@@ -21,7 +21,7 @@ def init_firebase(key_path: str = None):
         return
 
     # Support file path via GOOGLE_APPLICATION_CREDENTIALS
-    key_path = key_path or os.environ.get("GOOGLE_APPLICATION_CREDENTIALS", "")
+    key_path = key_path or os.environ.get("GOOGLE_APPLICATION_CREDENTIALS", "app/news-storage-01-firebase-adminsdk-fbsvc-934ae7bccd.json")
 
     # Support direct JSON content via FIREBASE_CRED env var (for Render deployment)
     firebase_cred_json = os.environ.get("FIREBASE_CRED", "")

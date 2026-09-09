@@ -133,27 +133,7 @@ async def lookup(date: str, provider: str, city: str):
 
 @app.get("/download/{path:path}")
 async def download(path: str):
-    """Download PDF from Firestore."""
-    import base64
-    from .storage import init_firebase, get_pdf_base64, get_doc_by_filename
-    init_firebase()
-
-    filename = Path(path).name
-
-    # Look up document by filename in Firestore
-    doc = get_doc_by_filename(filename)
-    if not doc:
-        return JSONResponse({"error": "not found"}, 404)
-
-    doc_id = doc["id"]
-    pdf_b64 = get_pdf_base64(doc_id)
-    if not pdf_b64:
-        return JSONResponse({"error": "PDF content not found"}, 404)
-
-    data = base64.b64decode(pdf_b64)
-    from fastapi.responses import Response
-    return Response(content=data, media_type="application/pdf",
-                   headers={"Content-Disposition": f'attachment; filename="{filename}"'})
+    return JSONResponse({"error": "This endpoint is deprecated. Use /api/lookup for faster downloads."}, 404)
 
 
 class EncodeRequest(BaseModel):
@@ -288,9 +268,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 .btns{display:flex;gap:0;padding:0}
 .b{display:inline-flex;align-items:center;gap:.35rem;padding:.5rem 1rem;border-radius:.5rem;font-size:.75rem;font-weight:600;border:none;cursor:pointer;text-decoration:none;transition:all .2s;white-space:nowrap}
-.bd{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;box-shadow:0 1px 3px rgba(37,99,235,.3)}.bd:hover{background:linear-gradient(135deg,#1d4ed8,#1e40af);box-shadow:0 4px 12px rgba(37,99,235,.4);transform:translateY(-1px)}
-.bs{background:#f1f5f9;color:#475569;border:1px solid #e2e8f0}.bs:hover{background:#e2e8f0;color:#1e293b}
-.bs.ok{background:#22c55e;color:#fff}
+.b.downloading {
+  background: var(--muted);
+  color: #fff;
+  pointer-events: none;
+  opacity: 0.7;
+}
+.b.downloading::after {
+  content: '...';
+  animation: blink 1s infinite;
+}
+@keyframes blink {
+  0% { opacity: 0; }
+  50% { opacity: 1; }
+  100% { opacity: 0; }
+}
 
 .past-card{background:#f8fafc;border:1px solid #e2e8f0;border-radius:.75rem;padding:1.25rem;margin-top:1rem;margin-bottom:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.06)}
 
@@ -352,7 +344,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
     </div>
     <div class="stats" id="stats"></div>
     <div class="tbl-wrap">
-      <table class="tbl"><thead><tr><th>SN</th><th>Newspaper</th><th>City</th><th>Size</th><th>Action</th></tr></thead><tbody id="tbody"></tbody></table>
+      <table class="tbl"><thead><tr><th>SN</th><th>Newspaper</th><th>City</th><th>Action</th></tr></thead><tbody id="tbody"></tbody></table>
       <div class="empty" id="empty" style="display:none"><i>📰</i>No e-papers found</div>
     </div>
   </div>
@@ -429,18 +421,17 @@ function renderTable(files){
     ps.add(pk);cs.add(ck);
     mb+=(f.size||f.size_mb||0);
   });
-  st.innerHTML=`<div class="stat"><b>${files.length}</b><small>Files</small></div><div class="stat"><b>${ps.size}</b><small>Newspapers</small></div><div class="stat"><b>${cs.size}</b><small>Cities</small></div><div class="stat"><b>${mb.toFixed?mb.toFixed(0):mb}</b><small>MB</small></div>`;
-  files.forEach((f,i)=>{
+  st.innerHTML=`<div class="stat"><b>${files.length}</b><small>Files</small></div><div class="stat"><b>${ps.size}</b><small>Newspapers</small></div><div class="stat"><b>${cs.size}</b><small>Cities</small></div>`;
+    files.forEach((f,i)=>{
     const pk=f.provider_key||f.provider;
     const ck=f.city_key||f.city;
     const prov=PN[pk]||pk.replace(/-/g,' ').replace(/\b\w/g,l=>l.toUpperCase());
     const city=CN[ck]||ck.replace(/-/g,' ').replace(/\b\w/g,l=>l.toUpperCase());
     const cls=DOT[pk]||'d-ip';
-    const sz=f.size||f.size_mb||0;
-    const dlPath=f.path.replace(/^data.epapers./,'').replace(/\\\\/g,'/');
-    const url='/download/'+dlPath;
+    const date=f.date || new Date().toISOString().split('T')[0];
+    const url=`/api/lookup?date=${date}&provider=${pk}&city=${ck}`;
     const tr=document.createElement('tr');
-    tr.innerHTML=`<td data-label="SN">${i+1}</td><td data-label="Newspaper"><span class="prov"><span class="dot ${cls}"></span>${prov}</span></td><td data-label="City"><span class="ctag">${city}</span></td><td data-label="Size" class="sz">${sz} MB</td><td data-label="Action" class="btns"><a class="b bd" href="${url}" download>⬇ Download</a></td>`;
+    tr.innerHTML=`<td data-label="SN">${i+1}</td><td data-label="Newspaper"><span class="prov"><span class="dot ${cls}"></span>${prov}</span></td><td data-label="City"><span class="ctag">${city}</span></td><td data-label="Action" class="btns"><a class="b bd" href="${url}" onclick="this.classList.add('downloading'); setTimeout(()=>this.classList.remove('downloading'), 3000)" download>⬇ Download</a></td>`;
     tb.appendChild(tr);
   });
 }

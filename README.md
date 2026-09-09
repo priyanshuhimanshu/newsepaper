@@ -41,13 +41,20 @@ pip install -r requirements.txt
 ```
 
 ### Run
-
-```bash
-# Start the web server
-python -m app.web
-```
-
-Open http://localhost:8000
+ 
+ ```bash
+ # Start the web server
+ python -m app.web
+ 
+ # Alternative: Run with uvicorn for better stability and auto-reload
+ python -m uvicorn app.web:app --host 127.0.0.1 --port 8000 --reload
+ 
+ # If port 8000 is blocked, clear zombie processes first:
+ # Stop-Process -Name "python" -Force
+ # Stop-Process -Name "uvicorn" -Force
+ ```
+ 
+ Open http://127.0.0.1:8000
 
 ### Docker
 
