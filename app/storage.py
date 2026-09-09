@@ -20,13 +20,24 @@ def init_firebase(key_path: str = None):
     if _db is not None:
         return
 
-    key_path = key_path or os.environ.get("GOOGLE_APPLICATION_CREDENTIALS", "app/news-storage-01-firebase-adminsdk-fbsvc-934ae7bccd.json")
-    if not Path(key_path).exists():
+    # Support file path via GOOGLE_APPLICATION_CREDENTIALS
+    key_path = key_path or os.environ.get("GOOGLE_APPLICATION_CREDENTIALS", "")
+
+    # Support direct JSON content via FIREBASE_CRED env var (for Render deployment)
+    firebase_cred_json = os.environ.get("FIREBASE_CRED", "")
+
+    if firebase_cred_json:
+        import json
+        import tempfile
+        cred_dict = json.loads(firebase_cred_json)
+        cred = credentials.Certificate(cred_dict)
+    elif key_path and Path(key_path).exists():
+        cred = credentials.Certificate(key_path)
+    else:
         logger.warning("firebase_key_missing", path=key_path)
         return
 
     try:
-        cred = credentials.Certificate(key_path)
         firebase_admin.initialize_app(cred)
         _db = firestore.client()
         logger.info("firebase_initialized")
