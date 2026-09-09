@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+app/news-storage-01-firebase-adminsdk-fbsvc-934ae7bccd.json
+data/
