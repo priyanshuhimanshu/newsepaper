@@ -1,4 +1,5 @@
 """Firebase Firestore for e-paper storage (metadata + PDF content in chunks)."""
+import os
 import base64
 import math
 import firebase_admin
@@ -19,7 +20,7 @@ def init_firebase(key_path: str = None):
     if _db is not None:
         return
 
-    key_path = key_path or "app/news-storage-01-firebase-adminsdk-fbsvc-934ae7bccd.json"
+    key_path = key_path or os.environ.get("GOOGLE_APPLICATION_CREDENTIALS", "app/news-storage-01-firebase-adminsdk-fbsvc-934ae7bccd.json")
     if not Path(key_path).exists():
         logger.warning("firebase_key_missing", path=key_path)
         return
