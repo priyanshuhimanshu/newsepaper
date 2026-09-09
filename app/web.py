@@ -444,7 +444,8 @@ function renderTable(files){
     const city=CN[ck]||ck.replace(/-/g,' ').replace(/\b\w/g,l=>l.toUpperCase());
     const cls=DOT[pk]||'d-ip';
     const sz=f.size||f.size_mb||0;
-    const url='/download/'+f.path;
+    const dlPath=f.path.replace(/^data.epapers./,'').replace(/\\\\/g,'/');
+    const url='/download/'+dlPath;
     const tr=document.createElement('tr');
     tr.innerHTML=`<td data-label="SN">${i+1}</td><td data-label="Newspaper"><span class="prov"><span class="dot ${cls}"></span>${prov}</span></td><td data-label="City"><span class="ctag">${city}</span></td><td data-label="Size" class="sz">${sz} MB</td><td data-label="Action" class="btns"><a class="b bd" href="${url}" download>⬇ Download</a></td>`;
     tb.appendChild(tr);
