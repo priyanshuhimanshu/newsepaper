@@ -364,8 +364,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 </div>
 
 <footer class="footer">
-  <div style="display:flex; justify-content:space-between; align-items:center; max-width:1100px; margin:0 auto; padding:0 1.5rem">
-    <span>&copy; 2026</span>
+  <div style="display:flex; justify-content:space-between; align-items:center; max-width:1100px; margin:0 auto; padding:0 1.5rem" id="footer-year">
+    <span></span>
     <div>Designed & Developed by <b>Manoranjan Kumar</b></div>
     <span class="disclaimer">Not for commercial use</span>
   </div>
@@ -408,6 +408,10 @@ function tick(){
   const now=new Date();
   document.getElementById('clockDate').textContent=now.toLocaleDateString('en-IN',{timeZone:'Asia/Kolkata',weekday:'short',day:'numeric',month:'short',year:'numeric'});
   document.getElementById('clockTime').textContent=now.toLocaleTimeString('en-IN',{timeZone:'Asia/Kolkata',hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  
+  // Update copyright year
+  const footerYear = document.getElementById('footer-year').firstElementChild;
+  if(footerYear) footerYear.textContent = `&copy; ${now.getFullYear()}`;
 }
 setInterval(tick,1000);tick();
 
