@@ -43,11 +43,11 @@ pip install -r requirements.txt
 ### Run
  
  ```bash
- # Start the web server
- python -m app.web
- 
- # Alternative: Run with uvicorn for better stability and auto-reload
+ # Start the web server (Local)
  python -m uvicorn app.web:app --host 127.0.0.1 --port 8000 --reload
+ 
+ # Start the web server (Render/Production)
+ python -m uvicorn app.web:app --host 0.0.0.0 --port $PORT
  
  # If port 8000 is blocked, clear zombie processes first:
  # Stop-Process -Name "python" -Force
