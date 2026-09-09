@@ -311,22 +311,21 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .msg.info{display:block;background:rgba(37,99,235,.08);border:1px solid rgba(37,99,235,.2);color:var(--accent)}
 
 .footer{
-  margin-top: 3rem;
-  padding: 2rem 0;
+  margin-top: 2rem;
+  padding: 1rem 0;
   border-top: 1px solid var(--border);
   text-align: center;
   color: var(--muted);
-  font-size: .85rem;
+  font-size: .75rem;
 }
 .footer b{
   color: var(--text);
-  font-weight: 600;
+  font-weight: 500;
 }
 .footer .disclaimer{
   display: block;
-  margin-top: .5rem;
-  font-style: italic;
-  opacity: 0.8;
+  font-size: .7rem;
+  opacity: 0.7;
 }
 @media(max-width:640px){
   .tbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
