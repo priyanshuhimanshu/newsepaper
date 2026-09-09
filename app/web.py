@@ -402,7 +402,7 @@ function closePastModal(e){
 }
 const DOT={'indian-punch':'d-ip','prabhat-khabar':'d-pk','ranchi-express':'d-re','santal-express':'d-se','livehindustan':'d-lh'};
 const PN={'indian-punch':'Indian Punch','prabhat-khabar':'Prabhat Khabar','ranchi-express':'Ranchi Express','santal-express':'Santal Express','livehindustan':'Live Hindustan'};
-const CN={ranchi:'रांची',deoghar:'देवघर',dumka:'दुमका',sahibganj:'साहिबगंज',pakur:'पाकुड़',godda:'गोड्डा',dhanbad:'धनबाद',jamshedpur:'जमशेदपुर',giridih:'गिरिडीह',hazaribag:'हजारीबाग',bokaro:'बोकारो'};
+const CN={ranchi:'रांची',deoghar:'देवघर',dumka:'दुमका',sahibganj:'साहिबगंज',pakur:'पाकुड़'};
 
 function tick(){
   const now=new Date();
