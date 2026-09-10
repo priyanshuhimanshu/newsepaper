@@ -41,9 +41,22 @@ async def health():
 @app.get("/api/today")
 async def today():
     now = datetime.now()
-    init_firebase()
-    firestore_files = get_latest()
-    return JSONResponse({"date": now.strftime("%Y-%m-%d"), "files": firestore_files})
+    date_str = now.strftime("%Y-%m-%d")
+    
+    expected = [
+        {"provider_key": "indian-punch", "provider": "Indian Punch", "city_key": "deoghar", "city": "देवघर", "date": date_str},
+        {"provider_key": "prabhat-khabar", "provider": "Prabhat Khabar", "city_key": "ranchi", "city": "रांची", "date": date_str},
+        {"provider_key": "prabhat-khabar", "provider": "Prabhat Khabar", "city_key": "deoghar", "city": "देवघर", "date": date_str},
+        {"provider_key": "prabhat-khabar", "provider": "Prabhat Khabar", "city_key": "dumka", "city": "दुमका", "date": date_str},
+        {"provider_key": "prabhat-khabar", "provider": "Prabhat Khabar", "city_key": "sahibganj", "city": "साहिबगंज", "date": date_str},
+        {"provider_key": "prabhat-khabar", "provider": "Prabhat Khabar", "city_key": "pakur", "city": "पाकुड़", "date": date_str},
+        {"provider_key": "ranchi-express", "provider": "Ranchi Express", "city_key": "ranchi", "city": "रांची", "date": date_str},
+        {"provider_key": "santal-express", "provider": "Santal Express", "city_key": "ranchi", "city": "रांची", "date": date_str},
+        {"provider_key": "livehindustan", "provider": "Live Hindustan", "city_key": "sahibganj", "city": "साहिबगंज", "date": date_str},
+        {"provider_key": "livehindustan", "provider": "Live Hindustan", "city_key": "pakur", "city": "पाकुड़", "date": date_str},
+        {"provider_key": "livehindustan", "provider": "Live Hindustan", "city_key": "dumka", "city": "दुमका", "date": date_str},
+    ]
+    return JSONResponse({"date": date_str, "files": expected})
 
 
 @app.get("/api/history")

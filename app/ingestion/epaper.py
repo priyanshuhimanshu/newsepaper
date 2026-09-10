@@ -356,14 +356,14 @@ class EpaperDownloader:
         today = now_ist()
         results = {}
         results["indian_punch"] = await self.download_indian_punch(today)
-        # results["prabhat_khabar"] = await self.download_prabhat_khabar_all(
-        #     ["ranchi", "deoghar", "dumka", "sahibganj", "pakur"], today
-        # )
-        # results["ranchi_express"] = await self.download_ranchi_express(today)
-        # results["santal_express"] = await self.download_santal_express(today)
-        # results["livehindustan"] = await self.download_livehindustan_all(
-        #     ["sahibganj", "godda", "deoghar", "dumka", "dhanbad", "jamshedpur"], today
-        # )
+        results["prabhat_khabar"] = await self.download_prabhat_khabar_all(
+            ["ranchi", "deoghar", "dumka", "sahibganj", "pakur"], today
+        )
+        results["ranchi_express"] = await self.download_ranchi_express(today)
+        results["santal_express"] = await self.download_santal_express(today)
+        results["livehindustan"] = await self.download_livehindustan_all(
+            ["sahibganj", "pakur", "dumka"], today
+        )
         logger.info("epaper_all_complete", results={k: v.get("status") for k, v in results.items()})
         return results
 
