@@ -87,12 +87,13 @@ class EpaperDownloader:
     async def download_indian_punch(self, date: datetime = None) -> dict:
         """Download Indian Punch e-paper PDF (already a PDF)."""
         date = date or now_ist()
-        day, month_name = date.day, date.strftime("%b").upper()
+        day = date.day
+        month_name = date.strftime("%b")  # Sep, Oct, etc. (capitalized)
         month_num = f"{date.month:02d}"
 
         pdf_url = (
             f"https://epaper.indianpunch.com/wp-content/uploads/"
-            f"{date.year}/{month_num}/INDIAN-PUNCH-{day}-{month_name}-{date.year}.pdf"
+            f"{date.year}/{month_num}/Indian-Punch-{day}-{month_name}-{date.year}.pdf"
         )
         try:
             client = await self._get_client()

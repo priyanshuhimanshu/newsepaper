@@ -44,7 +44,6 @@ async def today():
     date_str = now.strftime("%Y-%m-%d")
     
     expected = [
-        {"provider_key": "indian-punch", "provider": "Indian Punch", "city_key": "deoghar", "city": "देवघर", "date": date_str},
         {"provider_key": "prabhat-khabar", "provider": "Prabhat Khabar", "city_key": "ranchi", "city": "रांची", "date": date_str},
         {"provider_key": "prabhat-khabar", "provider": "Prabhat Khabar", "city_key": "deoghar", "city": "देवघर", "date": date_str},
         {"provider_key": "prabhat-khabar", "provider": "Prabhat Khabar", "city_key": "dumka", "city": "दुमका", "date": date_str},
@@ -55,6 +54,7 @@ async def today():
         {"provider_key": "livehindustan", "provider": "Live Hindustan", "city_key": "sahibganj", "city": "साहिबगंज", "date": date_str},
         {"provider_key": "livehindustan", "provider": "Live Hindustan", "city_key": "pakur", "city": "पाकुड़", "date": date_str},
         {"provider_key": "livehindustan", "provider": "Live Hindustan", "city_key": "dumka", "city": "दुमका", "date": date_str},
+        {"provider_key": "indian-punch", "provider": "Indian Punch", "city_key": "deoghar", "city": "देवघर", "date": date_str},
     ]
     return JSONResponse({"date": date_str, "files": expected})
 
